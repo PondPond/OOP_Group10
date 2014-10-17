@@ -4,7 +4,7 @@ import javax.swing.*;
  * Write a description of class DrawBlock here.
  * 
  * @author (your name) 
- * @version (a version number or a date)
+ * @version 17/10/2014
  */
 public class Grid extends JPanel
 { 
