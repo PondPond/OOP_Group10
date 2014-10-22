@@ -3,10 +3,7 @@
 package gridtable;
 import java.awt.*;
 import javax.swing.*;
-/**
- *
- * @author PondPond
- */
+
 public class Table extends JPanel{
    private int cellSize;
    private int cellNum; //จำนวนcell
