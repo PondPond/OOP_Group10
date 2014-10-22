@@ -21,7 +21,7 @@ public class Table extends JPanel{
             for(int j=0 ; j<a.length-1; j++){
              g.fillRect((i+1)*cellSize,(j+1)*cellSize,cellSize-2,cellSize-2);
             
-            }
-            }   
+        }
+      }   
    }
 }
