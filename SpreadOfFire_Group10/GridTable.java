@@ -1,16 +1,10 @@
+
 package gridtable;
 
 import javax.swing.*;
 import java.awt.*;
-/**
- *
- * @author PondPond
- */
-public class GridTable {
 
-    /**
-     * @param args the command line arguments
-     */
+public class GridTable {
     public static void main(String[] args) {
         Frame f = new Frame();
         Table t = new Table();
