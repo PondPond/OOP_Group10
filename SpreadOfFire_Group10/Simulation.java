@@ -84,7 +84,7 @@ public class Simulation
         g.Update(cell);
     }
     
-      public int getStep() {
+      public int getStep() { 
         return step;
     }
 
