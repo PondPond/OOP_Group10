@@ -22,6 +22,18 @@ public class Grid extends JPanel
         this.cell = cell;
         repaint();
     }
+    
+      public int getStep(){
+        return this.step;
+    }
+
+    public void setStep(){
+        this.step = this.step+1;
+    }
+
+    public void setStep(int step){
+        this.step = this.step;
+    }
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
