@@ -51,11 +51,45 @@ public class Simulation
         }
         update();
     }
+    
+     public void Spread(){
+        for(int i = 1 ; i<cell.length-1 ; i++){
+            for (int j = 1 ; j<cell.length-1 ; j++){
+                if(cell[i][j].getState() == Cell.BURNING && check[i][j] == false){
+                    cell[i][j].setState(0);
+                    if(cell[i-1][j].getState() == Cell.TREE && rand.nextDouble() <= probCatch ){
+                        cell[i-1][j].setState(Cell.BURNING);
+                        check[i-1][j]=true;
+                    }//North
+                    if(cell[i+1][j].getState() == Cell.TREE && rand.nextDouble() <= probCatch){
+                        cell[i+1][j].setState(Cell.BURNING);
+                        check[i+1][j]=true;
+                    }//South
+                    if(cell[i][j+1].getState() == Cell.TREE && rand.nextDouble() <= probCatch){
+                        cell[i][j+1].setState(Cell.BURNING);
+                        check[i][j+1]=true;
+                    }//East
+                    if(cell[i][j-1].getState() == Cell.TREE && rand.nextDouble() <= probCatch){
+                        cell[i][j-1].setState(Cell.BURNING);
+                        check[i][j-1]=true;
+                    }//West
+
+                }
+            }
+        }
+        g.setStep();
+    }
 
     public void update() {
         g.Update(cell);
     }
     
+      public int getStep() {
+        return step;
+    }
+
+    public void setStep(int step) {
+        this.step = step;
     
 }
 
