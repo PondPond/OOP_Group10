@@ -1,14 +1,24 @@
 import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JSlider;
+import javax.swing.JPanel;
+import javax.swing.JLabel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class Controller
+
+public class Controller extends JPanel
 {
 
     private Simulation simulation;
     private Grid myGrid;
+    
+    JButton autoButton;
+    JButton stepButton;
+    JButton resetButton;
+    JButton valueButton;
 
     public Controller(Simulation simulation ,Grid myGrid){
         this.simulation= simulation;
@@ -26,12 +36,27 @@ public class Controller
         //Add the button to the myPanel
         myGrid.add(autoButton);
     }
+    
+    private void addAutoButton(){
+        //Create auto button
+        autoButton=new JButton("Auto");
+        //Add the button to the myPanel
+        myGrid.add(autoButton);
+    }
+
 
     private void addStepButton(){
-        //Create the button
-        JButton stepButton=new JButton("Step");
+        //Create step button
+        stepButton=new JButton("Step");
         //Add the button to the myPanel
         myGrid.add(stepButton);
+
+        stepButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    simulation.spreadFire();
+                    //System.out.println("Step : "+myGrid.getStep());
+                }
+            });
     }
 
     private void addResetButton(){
