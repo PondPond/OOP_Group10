@@ -65,4 +65,24 @@ public class Controller extends JPanel
         //Add the button to the myPanel
         myGrid.add(resetButton);
     }
+    
+      private void addProbCatch(){
+        probCatchText = new JLabel("Identify probability that the tree will catch fire");
+        myGrid.add (probCatchText);
+        probCatchVal = new JLabel("probCatch :");
+        myGrid.add (probCatchVal);
+        probCatchSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 0);
+
+        probCatchSlider.addChangeListener(new ChangeListener() {
+                @Override
+                public void stateChanged(ChangeEvent e) {
+                    if (probCatchSlider.getValueIsAdjusting()) {
+                        probCatchVal.setText("ProbCatch : " + (double)probCatchSlider.getValue() + " %");
+                        simulation.setProbCatch((double) probCatchSlider.getValue() / 100);
+                    }
+                }
+            }
+        );
+        myGrid.add(probCatchSlider);
+    }
 }
