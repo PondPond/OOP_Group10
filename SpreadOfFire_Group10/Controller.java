@@ -72,7 +72,6 @@ public class Controller extends JPanel
         probCatchVal = new JLabel("probCatch :");
         myGrid.add (probCatchVal);
         probCatchSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 0);
-
         probCatchSlider.addChangeListener(new ChangeListener() {
                 @Override
                 public void stateChanged(ChangeEvent e) {
