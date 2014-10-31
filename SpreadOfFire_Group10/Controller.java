@@ -125,4 +125,15 @@ public class Controller extends JPanel
         );
         myGrid.add(probBurningSlider);
     }
+     private void showValueButton(){
+        valueButton = new JButton("show value");
+        myGrid.add(valueButton);
+        valueButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    myGrid.setShowVal(true);
+                    myGrid.repaint();
+                    
+                }
+            });
+    }
 }
