@@ -84,4 +84,25 @@ public class Controller extends JPanel
         );
         myGrid.add(probCatchSlider);
     }
+     private void addProbTree(){
+        probTreeText = new JLabel("Identify density of tree in forest");
+        myGrid.add (probTreeText);
+        probTreeVal = new JLabel("probTree :");
+        myGrid.add (probTreeVal);
+        probTreeSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 100);
+
+        probTreeSlider.addChangeListener(new ChangeListener() {
+                @Override
+                public void stateChanged(ChangeEvent e) {
+                    if (probTreeSlider.getValueIsAdjusting()) {
+                        probTreeVal.setText("ProbTree : " + (double)probTreeSlider.getValue() + " %");
+                        simulation.setProbTree((double) probTreeSlider.getValue() / 100);
+                    }
+                }
+
+            }
+        );
+        myGrid.add(probTreeSlider);
+        
+    }
 }
