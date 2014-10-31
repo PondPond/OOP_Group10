@@ -79,17 +79,101 @@ public class Simulation
         }
         g.setStep();
     }
-
-    public void update() {
-        g.Update(cell);
+    
+   public void run(){
+        while(!checkFire()){
+            spreadFire();
+        }
     }
     
-      public int getStep() { 
+   public void spreadFire(){
+        try{
+            if(!checkFire()){
+                Spread();
+            }
+            resetCheck();
+            g.Update(cell);
+            Thread.sleep(50);
+        }catch(Exception e){
+
+        }
+    }
+    
+    public boolean checkFire(){
+        for (int i = 1; i < cell.length; i++) {
+            for (int j = 1; j < cell[0].length; j++) {
+                if(cell[i][j].getState() == Cell.BURNING){
+                    return false;
+                }
+            }
+        }
+        return  true;
+    }
+    
+    public void resetCheck(){
+        for (int i = 1; i < cell.length - 1; i++) {
+            for (int j = 1; j < cell[0].length - 1; j++) { 
+                check[i][j] = false ;
+                
+          }
+       }
+    }
+    
+
+   
+    public Cell[][] getCell() {
+        return cell;
+    }
+
+    public double getProbCatch() {
+        return probCatch;
+    }
+
+    public void setProbCatch(double probCatch) {
+        this.probCatch = probCatch;
+    }
+
+    public double getProbTree() {
+        return probTree;
+    }
+
+    public void setProbTree(double probTree) {
+        this.probTree = probTree;
+    }
+
+    public double getProbBurning() {
+        return probBurning;
+    }
+
+    public void setProbBurning(double probBurning) {
+        this.probBurning = probBurning;
+    }
+
+    public int getDelay() {
+        return delay;
+    }
+
+    public void setDelay(int delay) {
+        this.delay = delay;
+    }
+
+    public int getStep() {
         return step;
     }
 
     public void setStep(int step) {
         this.step = step;
-    
-}
+    }
+
+    public int getNumTree() {
+        return numTree;
+    }
+
+    public void setNumTree(int numTree) {
+        this.numTree = numTree;
+    }
+
+    public void update() {
+        g.Update(cell);
+    }
 
