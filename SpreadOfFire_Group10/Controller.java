@@ -99,10 +99,30 @@ public class Controller extends JPanel
                         simulation.setProbTree((double) probTreeSlider.getValue() / 100);
                     }
                 }
-
             }
         );
         myGrid.add(probTreeSlider);
-        
+    }
+    
+      private void addProbBurning(){
+        probBurningText1 = new JLabel("Identify density of tree in forest");
+        probBurningText2 = new JLabel("when the simulation begins");
+        myGrid.add (probBurningText1);
+        myGrid.add (probBurningText2);
+        probBurnVal = new JLabel("probBurning :");
+        myGrid.add (probBurnVal);
+        probBurningSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 0);
+
+        probBurningSlider.addChangeListener(new ChangeListener() {
+                @Override
+                public void stateChanged(ChangeEvent e) {
+                    if ( probBurningSlider.getValueIsAdjusting()) {
+                        probBurnVal.setText("ProbBurning : " + (double) probBurningSlider.getValue() + " %");
+                        simulation.setProbBurning((double) probBurningSlider.getValue() / 100);
+                    }
+                }
+            }
+        );
+        myGrid.add(probBurningSlider);
     }
 }
