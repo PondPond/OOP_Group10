@@ -14,20 +14,29 @@ public class Controller extends JPanel
 
     private Simulation simulation;
     private Grid myGrid;
-    
+    private JLabel setting;
     JButton autoButton;
     JButton stepButton;
     JButton resetButton;
     JButton valueButton;
+    JSlider probCatchSlider;
+    JSlider probTreeSlider;
+    JSlider probBurningSlider;
 
-    public Controller(Simulation simulation ,Grid myGrid){
-        this.simulation= simulation;
-        this.myGrid = myGrid;
-
+    public Controller(){
+        setLayout( new GridLayout());
+        myGrid = new Grid();
+        setting = new JLabel("Spread fire simulation");
+        simulation = new Simulation(myGrid, 23, 0.1, 1.0, 0.0);
+        simulation.initForest();
+        myGrid.add(setting);
+        myGrid.setShowVal(false);
         addAutoButton();
         addStepButton();
         addResetButton();
+        showValueButton();
     }
+
 
     
  private void addAutoButton(){
