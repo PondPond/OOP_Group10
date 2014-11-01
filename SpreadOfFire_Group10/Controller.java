@@ -15,6 +15,13 @@ public class Controller extends JPanel
     private Simulation simulation;
     private Grid myGrid;
     private JLabel setting;
+    private JLabel probCatchText;
+    private JLabel probTreeText;
+    private JLabel probBurningText1;
+    private JLabel probBurningText2;
+    private JLabel probCatchVal;
+    private JLabel probTreeVal;
+    private JLabel probBurnVal;
     JButton autoButton;
     JButton stepButton;
     JButton resetButton;
@@ -35,6 +42,10 @@ public class Controller extends JPanel
         addStepButton();
         addResetButton();
         showValueButton();
+        addProbCatch();
+        addProbTree();
+        addProbBurning();
+        add(myGrid);
     }
 
 
@@ -83,6 +94,7 @@ public class Controller extends JPanel
         resetButton=new JButton("Reset");
         //Add the button to the myPanel
         myGrid.add(resetButton);
+        
         resetButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     simulation = new Simulation(myGrid,simulation.getNumTree(),simulation.getProbCatch(),simulation.getProbTree(),simulation.getProbBurning());
@@ -100,6 +112,7 @@ public class Controller extends JPanel
         probCatchVal = new JLabel("probCatch :");
         myGrid.add (probCatchVal);
         probCatchSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 0);
+       
         probCatchSlider.addChangeListener(new ChangeListener() {
                 @Override
                 public void stateChanged(ChangeEvent e) {
