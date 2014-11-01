@@ -70,12 +70,21 @@ public class Controller extends JPanel
 
 
     private void addResetButton(){
-        //Create the button
-        JButton resetButton=new JButton("Reset");
+        //Create reset button
+        resetButton=new JButton("Reset");
         //Add the button to the myPanel
         myGrid.add(resetButton);
-    }
-    
+        resetButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    simulation = new Simulation(myGrid,simulation.getNumTree(),simulation.getProbCatch(),simulation.getProbTree(),simulation.getProbBurning());
+                    simulation.initForest();
+                    myGrid.setStep(0);
+                    myGrid.setShowVal(false);
+                }
+            });
+
+    } 
+
       private void addProbCatch(){
         probCatchText = new JLabel("Identify probability that the tree will catch fire");
         myGrid.add (probCatchText);
