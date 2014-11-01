@@ -29,6 +29,7 @@ public class Simulation
         this.probCatch = probCatch;
         this.probTree = probTree;
         this.probBurning = probBurning; 
+        check = new boolean[numTree][numTree];
         initForest();
     }
 
@@ -37,14 +38,20 @@ public class Simulation
         for (int i = 0; i < cell.length; i++) {
             for (int j = 0; j < cell[0].length; j++) {
                 cell[i][j] = new Cell(Cell.TREE);
+                if(rand.nextDouble() < probTree){
+                    if(rand.nextDouble()<getProbBurning()){
+                        cell[i][j].setState(Cell.BURNING);
+                    }else{
+                        cell[i][j].setState(Cell.TREE);
+                    }
+                } else{
+                    cell[i][j].setState(Cell.EMPTY);
+                }
                 if (i == 0 || i == cell.length-1  || j == 0 || j == cell.length-1 ) {
                     cell[i][j].setState(Cell.EMPTY);
                 }
                 else if  (i == cell.length/2 && j == cell.length/2) {
                     cell[i][j].setState(Cell.BURNING);
-                }
-                else{
-                    cell[i][j].setState(Cell.TREE); 
                 }
 
             }
@@ -117,6 +124,41 @@ public class Simulation
                 
           }
        }
+    }
+    
+    public void autoSpread(final int i, final int j) {
+        Thread t = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (i < cell.length - 1 && i > 0 && j < cell.length - 1 && j > 0) {
+                            if (rand.nextDouble() < getProbCatch() && cell[i][j].getState() == Cell.TREE) {
+                                cell[i][j].setState(Cell.BURNING);
+                            }
+                            try {
+                                Thread.sleep(100);
+                                if (cell[i][j].getState() == Cell.BURNING) {
+                                    cell[i][j].setState(0);
+                                    if (cell[i + 1][j].getState() == Cell.TREE) {
+                                        autoSpread(i + 1, j);
+                                    }
+                                    if (cell[i - 1][j].getState() == Cell.TREE) {
+                                        autoSpread(i - 1, j);
+                                    }
+                                    if (cell[i][j + 1].getState() == Cell.TREE) {
+                                        autoSpread(i, j + 1);
+                                    }
+                                    if (cell[i][j - 1].getState() == Cell.TREE) {
+                                        autoSpread(i, j - 1);
+                                    }
+                                }
+                            } catch (InterruptedException e) {
+                            }
+
+                        }
+                        update();
+                    }
+                });
+        t.start();
     }
     
 
