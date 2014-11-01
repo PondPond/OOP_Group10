@@ -1,5 +1,5 @@
 import java.awt.*;
-import javax.swing.*;
+import javax.swing.JPanel;
 /**
  * Write a description of class TestGrid here.
  * 
@@ -9,12 +9,14 @@ import javax.swing.*;
 public class Grid extends JPanel
 {
     private Cell cell [][] ;
+    private int step;
     private int cellSize;
     private boolean showVal;
 
     public Grid(){        
-        cellSize = 15;
-        setLayout(new FlowLayout(5, 650, 4));
+        setLayout(new FlowLayout(5,580, 18));
+        step = 0;
+        cellSize = 23;
         showVal = false;
     }
 
@@ -40,8 +42,8 @@ public class Grid extends JPanel
         for(int i = 0 ; i< cell.length;i++){
             for(int j = 0; j < cell.length ; j++ ){
                 if(cell[i][j]!=null){
-                    int x = (i+1)*20;
-                    int y = (j+1)*20;
+                    int x = (i+1)*cellSize;
+                    int y = (j+1)*cellSize;
                     if(cell[i][j].getState() == Cell.EMPTY){
                         g.setColor(Color.YELLOW);
                     }
@@ -51,7 +53,7 @@ public class Grid extends JPanel
                     else{
                         g.setColor(Color.RED);
                     }
-                    g.fillRect(x,y,20,20);
+                    g.fillRect(x,y,cellSize,cellSize);
                     g.setColor(Color.BLACK);
                     if(showVal){
 
@@ -63,7 +65,7 @@ public class Grid extends JPanel
                             g.drawString("2" , x+7 , y+14 );
                         }
 
-                        g.drawRect(x , y, 20, 20);
+                        g.drawRect(x , y,cellSize,cellSize);
                     }
 
                 }
@@ -71,13 +73,6 @@ public class Grid extends JPanel
         }
     }
 
-    public int getcellSize(){
-        return cellSize;
-    }
-
-    public void setcellSize(int cellSize){
-        this.cellSize = cellSize;
-    }
 
     public void setShowVal(boolean showVal) {
         this.showVal = showVal;
