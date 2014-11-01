@@ -53,6 +53,7 @@ public class Controller extends JPanel
     }
 
 
+ 
     private void addStepButton(){
         //Create step button
         stepButton=new JButton("Step");
@@ -66,6 +67,7 @@ public class Controller extends JPanel
                 }
             });
     }
+
 
     private void addResetButton(){
         //Create the button
