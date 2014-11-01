@@ -1,5 +1,5 @@
 import java.awt.*;
-import javax.swing.*;
+import javax.swing.JFrame;
 /**
  * Write a description of class TestFrame here.
  * 
@@ -9,18 +9,15 @@ import javax.swing.*;
 public class Frame
 {
     JFrame frame;
-    Controller c;
+    Controller controller;
     Simulation simulation;
     Grid myGrid;
     public Frame(){
         frame = new JFrame("Spreading Fire");  
-        frame.setSize(800,600);
-        myGrid = new Grid();
-        //frame.setLayout(new GridLayout(1,2));
-        simulation = new Simulation(myGrid, 25, 1.0, 1.0, 0.0);
-        c = new Controller(simulation,myGrid);
-        frame.add(myGrid); 
-        myGrid.setShowVal(true);
+        frame.setSize(850,600);
+        controller = new Controller();
+        frame.add(controller);
+        frame.setResizable(false);
         frame.setVisible(true);
         
     }
