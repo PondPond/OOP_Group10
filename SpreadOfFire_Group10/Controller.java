@@ -30,18 +30,26 @@ public class Controller extends JPanel
     }
 
     
-    private void addAutoButton(){
-        //Create the button
-        JButton autoButton=new JButton("Auto");
-        //Add the button to the myPanel
-        myGrid.add(autoButton);
-    }
-    
-    private void addAutoButton(){
+ private void addAutoButton(){
         //Create auto button
         autoButton=new JButton("Auto");
         //Add the button to the myPanel
         myGrid.add(autoButton);
+
+        autoButton.addActionListener(new ActionListener(){
+                public void actionPerformed(ActionEvent e){
+                    Thread t = new Thread(new Runnable() {
+                                public void run(){
+                                    try{
+                                        simulation.run();
+                                    }catch(Exception e){
+
+                                    }
+                                }
+                            });
+                    t.start();
+                }
+            });
     }
 
 
