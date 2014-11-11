@@ -49,8 +49,7 @@ public class Controller extends JPanel
         setLayout(new GridLayout());
         myGrid = new Grid();
         setting = new JLabel("Spread fire simulation");
-        buttonArea2.add(setting);        
-      
+        buttonArea2.add(setting);       
         simulation = new Simulation(myGrid, 23, 0.1, 1.0, 0.0);
         simulation.initForest();
         myGrid.add(buttonArea2);
@@ -59,7 +58,6 @@ public class Controller extends JPanel
         addAutoButton();
         addStepButton();
         addResetButton();
-
         showValueButton();
         myGrid.add(buttonArea1);
         addProbCatch();
@@ -80,7 +78,7 @@ public class Controller extends JPanel
         linkButton.setOpaque(false);
         linkButton.setContentAreaFilled(false);
         linkButton.setBorderPainted(false);
-       buttonArea2.add(linkButton);
+        buttonArea2.add(linkButton);
 
         linkButton.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent e){
@@ -250,7 +248,4 @@ public class Controller extends JPanel
         myGrid.add(probBurningSlider);
 
     }
-
-   
-
 }
