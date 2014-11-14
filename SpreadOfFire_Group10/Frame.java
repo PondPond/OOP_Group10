@@ -14,7 +14,7 @@ public class Frame
     Grid myGrid;
     public Frame(){
         frame = new JFrame("Spreading Fire");  
-        frame.setSize(850,600);
+        frame.setSize(890,600);
         controller = new Controller();
         frame.add(controller);
         frame.setResizable(false);
