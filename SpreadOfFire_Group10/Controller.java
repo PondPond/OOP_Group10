@@ -23,8 +23,7 @@ public class Controller extends JPanel
     private JLabel setting;
     private JLabel probCatchText;
     private JLabel probTreeText;
-    private JLabel probBurningText1;
-    private JLabel probBurningText2;
+    private JLabel probBurningText;
     private JLabel probCatchVal;
     private JLabel probTreeVal;
     private JLabel probBurnVal;
@@ -225,10 +224,8 @@ public class Controller extends JPanel
     }
 
     private void addProbBurning(){
-        probBurningText1 = new JLabel("Identify density of tree in forest");
-        probBurningText2 = new JLabel("when the simulation begins");
+        probBurningText1 = new JLabel("Identify burning of tree in forest");
         myGrid.add (probBurningText1);
-        myGrid.add (probBurningText2);
         probBurnVal = new JLabel("probBurning : 0.0%");
         myGrid.add (probBurnVal);
         probBurningSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 0);
