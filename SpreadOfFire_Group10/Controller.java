@@ -53,7 +53,7 @@ public class Controller extends JPanel
         simulation.initForest();
         myGrid.add(buttonArea2);
         linkButton();
-        myGrid.setShowValue(false);
+        myGrid.setShowVal(false);
         addAutoButton();
         addStepButton();
         addResetButton();
@@ -160,7 +160,7 @@ public class Controller extends JPanel
                     simulation = new Simulation(myGrid,simulation.getNumTree(),simulation.getProbCatch(),simulation.getProbTree(),simulation.getProbBurning());
                     simulation.initForest();
                     myGrid.setStep(0);
-                    myGrid.setShowValue(false);
+                    myGrid.setShowVal(false);
                 }
             });
 
@@ -171,7 +171,7 @@ public class Controller extends JPanel
         buttonArea1.add(showValueButton);
         showValueButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    myGrid.setShowValue(true);
+                    myGrid.setShowVal(true);
                     myGrid.repaint();
 
                 }
@@ -224,8 +224,8 @@ public class Controller extends JPanel
     }
 
     private void addProbBurning(){
-        probBurningText1 = new JLabel("Identify burning of tree in forest");
-        myGrid.add (probBurningText1);
+        probBurningText = new JLabel("Identify burning of tree in forest");
+        myGrid.add (probBurningText);
         probBurnVal = new JLabel("probBurning : 0.0%");
         myGrid.add (probBurnVal);
         probBurningSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 0);
