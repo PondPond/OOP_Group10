@@ -94,7 +94,7 @@ public class Controller extends JPanel
 
                         try {
 
-                            String url ="https://github.com/PondPond/OOP_Group10/wiki/Software-Document";
+                           String url ="https://github.com/PondPond/OOP_Group10/wiki/Software-Documentation-(V1.0)";
 
                             Desktop dt = Desktop.getDesktop();
                             URI uri = new URI(url);
