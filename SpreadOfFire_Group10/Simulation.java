@@ -11,6 +11,7 @@ public class Simulation
     private Grid g;
     private double probCatch, probTree, probBurning;
     private int numTree, delay, step;
+    private boolean checkBurning[][];
     private Random rand = new Random();
 
     /**
@@ -29,7 +30,7 @@ public class Simulation
         this.probCatch = probCatch;
         this.probTree = probTree;
         this.probBurning = probBurning; 
-        check = new boolean[numTree][numTree];
+        checkBurning = new boolean[numTree][numTree];
         initForest();
     }
 
@@ -62,23 +63,23 @@ public class Simulation
      public void Spread(){
         for(int i = 1 ; i<cell.length-1 ; i++){
             for (int j = 1 ; j<cell.length-1 ; j++){
-                if(cell[i][j].getState() == Cell.BURNING && check[i][j] == false){
+                if(cell[i][j].getState() == Cell.BURNING && checkBurning[i][j] == false){
                     cell[i][j].setState(0);
                     if(cell[i-1][j].getState() == Cell.TREE && rand.nextDouble() <= probCatch ){
                         cell[i-1][j].setState(Cell.BURNING);
-                        check[i-1][j]=true;
+                        checkBurning[i-1][j]=true;
                     }//North
                     if(cell[i+1][j].getState() == Cell.TREE && rand.nextDouble() <= probCatch){
                         cell[i+1][j].setState(Cell.BURNING);
-                        check[i+1][j]=true;
+                        checkBurning[i+1][j]=true;
                     }//South
                     if(cell[i][j+1].getState() == Cell.TREE && rand.nextDouble() <= probCatch){
                         cell[i][j+1].setState(Cell.BURNING);
-                        check[i][j+1]=true;
+                        checkBurning[i][j+1]=true;
                     }//East
                     if(cell[i][j-1].getState() == Cell.TREE && rand.nextDouble() <= probCatch){
                         cell[i][j-1].setState(Cell.BURNING);
-                        check[i][j-1]=true;
+                        checkBurning[i][j-1]=true;
                     }//West
 
                 }
@@ -120,7 +121,7 @@ public class Simulation
     public void resetCheck(){
         for (int i = 1; i < cell.length - 1; i++) {
             for (int j = 1; j < cell[0].length - 1; j++) { 
-                check[i][j] = false ;
+                checkBurning[i][j] = false ;
                 
           }
        }
