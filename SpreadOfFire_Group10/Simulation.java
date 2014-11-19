@@ -162,6 +162,23 @@ public class Simulation
         t.start();
     }
     
+    public void resetCheckLightning(){
+        for (int i = 1; i < cell.length - 1; i++) {
+            for (int j = 1; j < cell[0].length - 1; j++) { 
+                if(checkLightning[i][j] == true){
+                    burnStep[i][j]++;
+                    if(burnStep[i][j]-5 == 0 ){
+                        checkLightning[i][j] = false; 
+                        cell[i][j].setState(Cell.BURNING);
+                        burnStep[i][j] = 0;
+
+                    }
+                }
+
+            }
+        }
+    }
+
 
    
     public Cell[][] getCell() {
