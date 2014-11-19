@@ -177,6 +177,21 @@ public class Controller extends JPanel
                 }
             });
     }
+    
+     private void lightNing(){
+        lightNing = new JCheckBox("Lightning");
+        buttonArea1.add(lightNing);
+        lightNing.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    if(lightNing.isSelected()){
+                        simulation.setLightNing(true); 
+                    }else{
+                        simulation.setLightNing(false);
+                    }
+                }
+            });
+    }
+
 
     private void addProbCatch(){
         probCatchText = new JLabel("Identify probability that the tree will catch fire");
