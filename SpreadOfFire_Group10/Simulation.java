@@ -329,13 +329,12 @@ public class Simulation
         return  true;
     }
     
-    public void resetCheck(){
+       public void resetCheck(){
         for (int i = 1; i < cell.length - 1; i++) {
             for (int j = 1; j < cell[0].length - 1; j++) { 
                 checkBurning[i][j] = false ;
-                
-          }
-       }
+            }
+        }
     }
     
     public void autoSpread(final int i, final int j) {
