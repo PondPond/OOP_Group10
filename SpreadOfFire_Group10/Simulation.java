@@ -67,7 +67,8 @@ public class Simulation
         update();
     }
     
-      public void Spread(){
+   
+ public void Spread(){
         for(int i = 1 ; i<cell.length-1 ; i++){
             for (int j = 1 ; j<cell.length-1 ; j++){
                 if(cell[i][j].getState() == Cell.BURNING && checkBurning[i][j] == false && checkLightning[i][j] == false){
@@ -298,7 +299,6 @@ public class Simulation
         }
         g.setStep();
     }
-    
    public void run(){
         while(!checkFire()){
             spreadFire();
