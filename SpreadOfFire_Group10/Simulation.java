@@ -215,7 +215,7 @@ public class Simulation
                             checkBurning[i][j+1]=true;
 
                         }//East
-
+                        
                         if(cell[i][j-1].getState() == Cell.TREE && rand.nextDouble() <= probCatch){
                             cell[i][j-1].setState(Cell.BURNING);
                             checkBurning[i][j-1]=true;
