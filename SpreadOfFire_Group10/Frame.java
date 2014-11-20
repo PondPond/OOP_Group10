@@ -12,9 +12,13 @@ public class Frame
     Controller controller;
     Simulation simulation;
     Grid myGrid;
+   
+  
     public Frame(){
-        frame = new JFrame("Spreading Fire");  
-        frame.setSize(890,600);
+        frame = new JFrame("Spreading Fire"); 
+        frame.setBackground(Color.BLACK);
+        frame.setSize(810,600);      
+        frame.setLayout(new GridLayout());
         controller = new Controller();
         frame.add(controller);
         frame.setResizable(false);
@@ -23,8 +27,9 @@ public class Frame
     }
     
     
-    public static void main(String args[]){
+    public static void main(String args[])  {
         new Frame();
+     
         
     }
 }
