@@ -7,13 +7,18 @@ import java.awt.Color;
 import javax.swing.JButton;
 import javax.swing.JSlider;
 import javax.swing.JPanel;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JButton;
+import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import javax.swing.DefaultComboBoxModel;
 
 public class Controller extends JPanel
 {
@@ -24,20 +29,33 @@ public class Controller extends JPanel
     private JLabel probCatchText;
     private JLabel probTreeText;
     private JLabel probBurningText;
+    private JLabel probLightText;
     private JLabel probCatchVal;
     private JLabel probTreeVal;
     private JLabel probBurnVal;
+    private JLabel probLightVal;
+    private JLabel directionText;
+    private JLabel windSpeedText;
+    private JLabel setSizeText;
     private JButton autoButton;
     private JButton stepButton;
     private JButton resetButton;
     private JButton linkButton;
+    private JButton directButton;
     private JButton showValueButton;
+    private JCheckBox lightNing;
+    private JCheckBox smallSize;
+    private JCheckBox largeSize;
     private JSlider probCatchSlider;
     private JSlider probTreeSlider;
     private JSlider probBurningSlider;
+    private JSlider probLightningSlider;
+    private JSlider windSpeedSlider;
     private JPanel buttonArea1;
     private JPanel buttonArea2;
-    private boolean Click;
+    private JPanel buttonArea3;
+    private JPanel buttonArea4;
+    private boolean Click, isLarge = true;
 
     public Controller(){
         Click = false;
@@ -45,26 +63,37 @@ public class Controller extends JPanel
         buttonArea1.setLayout(new GridLayout(2,2,5,5));
         buttonArea2 = new JPanel();
         buttonArea2.setLayout(new FlowLayout());
+        buttonArea3 = new JPanel();
+        buttonArea3.setLayout(new FlowLayout());
         setLayout(new GridLayout());
+        buttonArea4 = new JPanel();
+        buttonArea4.setLayout(new FlowLayout());
         myGrid = new Grid();
         setting = new JLabel("Spread fire simulation");
-        buttonArea2.add(setting);       
-        simulation = new Simulation(myGrid, 23, 0.1, 1.0, 0.0);
+        buttonArea2.add(setting);
+
+        simulation = new Simulation(myGrid, 281, 0.0, 1.0, 0.0,0.0,false,"No",2);
         simulation.initForest();
         myGrid.add(buttonArea2);
         linkButton();
-        myGrid.setShowVal(false);
+        myGrid.setShowValue(false);
         addAutoButton();
         addStepButton();
         addResetButton();
         showValueButton();
+        //direction();
+
         myGrid.add(buttonArea1);
+        forestSize();
         addProbCatch();
         addProbTree();
         addProbBurning();
+        addProbLightning();
+        // lightNing();   
         add(myGrid);
+        direction();
+        windSpeed();
 
-      
     }
 
     private void linkButton(){
@@ -94,7 +123,7 @@ public class Controller extends JPanel
 
                         try {
 
-                           String url ="https://github.com/PondPond/OOP_Group10/wiki/Software-Documentation-(V1.0)";
+                            String url ="https://github.com/PondPond/OOP_Group10/wiki/Software-Documentation-(V2.0)";
 
                             Desktop dt = Desktop.getDesktop();
                             URI uri = new URI(url);
@@ -122,6 +151,9 @@ public class Controller extends JPanel
 
         autoButton.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent e){
+                    smallSize.setEnabled(false);
+                    largeSize.setEnabled(false);
+                    autoButton.setEnabled(false);
                     Thread t = new Thread(new Runnable() {
                                 public void run(){
                                     try{
@@ -157,45 +189,79 @@ public class Controller extends JPanel
         buttonArea1.add(resetButton);
         resetButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    simulation = new Simulation(myGrid,simulation.getNumTree(),simulation.getProbCatch(),simulation.getProbTree(),simulation.getProbBurning());
+                    simulation = new Simulation(myGrid,simulation.getNumTree(),simulation.getProbCatch(),simulation.getProbTree(),
+                        simulation.getProbBurning(),simulation.getProbLightning(),simulation.getLightNing(),simulation.getDirection(),simulation.getSpeed());
                     simulation.initForest();
                     myGrid.setStep(0);
-                    myGrid.setShowVal(false);
+                    myGrid.setShowValue(false);
+                    smallSize.setEnabled(true);
+                    largeSize.setEnabled(true);
+                    autoButton.setEnabled(true);
                 }
             });
 
     }
-    
-     private void showValueButton(){
+
+    private void showValueButton(){
         showValueButton = new JButton("Show Value");
         buttonArea1.add(showValueButton);
         showValueButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    myGrid.setShowVal(true);
+                    if(!isLarge){
+                        if(!myGrid.isShowValue()){
+                            myGrid.setShowValue(true);
+                        }else{
+                            myGrid.setShowValue(false);
+                        }
+                    }
                     myGrid.repaint();
-
                 }
             });
     }
-    
-     private void lightNing(){
-        lightNing = new JCheckBox("Lightning");
-        buttonArea1.add(lightNing);
-        lightNing.addActionListener(new ActionListener() {
+
+    private void forestSize(){
+        setSizeText = new JLabel("Set forest Size :");
+        ButtonGroup group = new ButtonGroup();
+        buttonArea3.add(setSizeText);
+        smallSize = new JCheckBox("Small");
+        buttonArea3.add(smallSize);
+        largeSize = new JCheckBox("Large");
+        buttonArea3.add(largeSize);
+        group.add(smallSize);
+        group.add(largeSize);
+        smallSize.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    if(lightNing.isSelected()){
-                        simulation.setLightNing(true); 
-                    }else{
-                        simulation.setLightNing(false);
+                    isLarge = false;
+                    if(smallSize.isSelected()){
+                        myGrid.setCellSize(23);
+                        simulation.setNumTree(23);
+                        simulation = new Simulation(myGrid,simulation.getNumTree(),simulation.getProbCatch(),simulation.getProbTree(),
+                            simulation.getProbBurning(),simulation.getProbLightning(),simulation.getLightNing(),simulation.getDirection(),simulation.getSpeed());
+                        simulation.initForest();
+                        myGrid.setStep(0);
                     }
                 }
             });
+        largeSize.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    isLarge = true;
+                    if(largeSize.isSelected()){
+                        myGrid.setCellSize(2);
+                        simulation.setNumTree(281);
+                        simulation = new Simulation(myGrid,simulation.getNumTree(),simulation.getProbCatch(),simulation.getProbTree(),
+                            simulation.getProbBurning(),simulation.getProbLightning(),simulation.getLightNing(),simulation.getDirection(),simulation.getSpeed());
+                        simulation.initForest();
+                        myGrid.setStep(0);
+
+                    }
+                }
+            });
+        myGrid.add(buttonArea3);
     }
 
-
     private void addProbCatch(){
-        probCatchText = new JLabel("Identify probability that the tree will catch fire");
-        myGrid.add (probCatchText);
+        //probCatchText = new JLabel("Identify probability that the tree will catch fire");
+        //myGrid.add (probCatchText);
         probCatchVal = new JLabel("probCatch : 0.0%");
         myGrid.add (probCatchVal);
         probCatchSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 0);
@@ -216,8 +282,8 @@ public class Controller extends JPanel
     }
 
     private void addProbTree(){
-        probTreeText = new JLabel("Identify density of tree in forest");
-        myGrid.add (probTreeText);
+        //probTreeText = new JLabel("Identify density of tree in forest");
+        //myGrid.add (probTreeText);
         probTreeVal = new JLabel("probTree : 100.0%");
         myGrid.add (probTreeVal);
         probTreeSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 100);
@@ -239,8 +305,8 @@ public class Controller extends JPanel
     }
 
     private void addProbBurning(){
-        probBurningText = new JLabel("Identify burning of tree in forest");
-        myGrid.add (probBurningText);
+        //probBurningText = new JLabel("Identify burning of tree in forest");
+        //myGrid.add (probBurningText);        
         probBurnVal = new JLabel("probBurning : 0.0%");
         myGrid.add (probBurnVal);
         probBurningSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 0);
@@ -259,5 +325,101 @@ public class Controller extends JPanel
         );
         myGrid.add(probBurningSlider);
 
+    }
+
+    private void addProbLightning(){
+        //probLightText = new JLabel("Identify probability that the tree is stuck by lightning");
+        //myGrid.add (probLightText);
+        lightNing = new JCheckBox("Lightning");
+        myGrid.add(lightNing);
+        probLightVal = new JLabel("probLightning : 0.0%");
+        myGrid.add (probLightVal);
+        probLightningSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 0);
+        probLightningSlider.setCursor(Cursor.getPredefinedCursor(12));
+
+        lightNing.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    if(lightNing.isSelected()){
+                        simulation.setLightNing(true); 
+                    }else{
+                        simulation.setLightNing(false);
+                    }
+                }
+            });
+        probLightningSlider.addChangeListener(new ChangeListener() {
+                @Override
+                public void stateChanged(ChangeEvent e) {
+                    if (probLightningSlider.getValueIsAdjusting()) {
+                        probLightVal.setText("ProbLightning : " + (double)probLightningSlider.getValue() + " %");
+                        simulation.setProbLightning((double) probLightningSlider.getValue() / 100);
+                    }
+                }
+
+            }
+        );
+        myGrid.add(probLightningSlider);
+
+    }
+
+    @SuppressWarnings("unchecked")
+    private void direction(){
+        directionText = new JLabel("Set wind directon :");
+        //myGrid.add(directionText);
+        final  DefaultComboBoxModel Direction = new  DefaultComboBoxModel();
+        Direction.addElement("NO");
+        Direction.addElement("NORTH");
+        Direction.addElement("EAST");
+        Direction.addElement("WEST");
+        Direction.addElement("SOUTH");
+
+        final JComboBox windDirect= new JComboBox(Direction);    
+        windDirect.setSelectedIndex(0);
+        JScrollPane DirectionScroll = new JScrollPane(windDirect);    
+
+        directButton = new JButton("Ok");
+
+        windDirect.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) { 
+                    String data = "";
+                    if (windDirect.getSelectedIndex() != -1) {                     
+                        simulation.setDirection((String)windDirect.getItemAt
+                            (windDirect.getSelectedIndex()));
+                        //System.out.println((String)windDirect.getItemAt
+                        //(windDirect.getSelectedIndex()));
+                    }              
+                }
+            }); 
+
+        buttonArea4.add(DirectionScroll);
+        buttonArea4.add(directionText);
+        buttonArea4.add(windDirect);
+        myGrid.add(buttonArea4);
+    }
+
+    private void windSpeed(){
+        windSpeedSlider = new JSlider(JSlider.HORIZONTAL, 0, 2, 0); // slide only horizontal min = 0(LOW) max = 2(HIGH)
+        windSpeedSlider.setMinorTickSpacing(1); // change only 1 value
+        windSpeedSlider.setMajorTickSpacing(1);
+        windSpeedSlider.setPaintTicks(true);
+        windSpeedSlider.setPaintLabels(true);
+        windSpeedText = new JLabel("Set wind speed : NONE");
+        myGrid.add(windSpeedText);
+
+        windSpeedSlider.addChangeListener(new ChangeListener() {
+                @Override
+                public void stateChanged(ChangeEvent e) { 
+                    if (windSpeedSlider.getValueIsAdjusting()) { // if sliding wind JSlider
+                        if (windSpeedSlider.getValue() == 0) { // if sliding to 0
+                            windSpeedText.setText("Set wind speed : NONE "); // set the the of wind spreed to none 
+                        } else if (windSpeedSlider.getValue() == 1) { // if sliding to 1
+                            windSpeedText.setText("Set wind speed : LOW "); // set the the of wind spreed to low
+                        } else { // if sliding to 2
+                            windSpeedText.setText("Set wind speed : HIGH "); // set the the of wind spreed to high
+                        }
+                        simulation.setSpeed(windSpeedSlider.getValue()); // set the vlue of wind speed by value of wind speed JSlider                }
+                    }
+                }
+            });
+        myGrid.add(windSpeedSlider);
     }
 }
