@@ -1,4 +1,5 @@
-import java.awt.*;
+import java.awt.Color;
+import java.awt.GridLayout;
 import javax.swing.JFrame;
 /**
  * Write a description of class TestFrame here.
