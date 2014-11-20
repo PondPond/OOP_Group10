@@ -9,8 +9,13 @@ public class Simulation
 {
     private Cell cell[][];
     private Grid g;
-    private double probCatch, probTree, probBurning;
-    private int numTree, delay, step;
+    private double probCatch, probTree, probBurning,probLightning;
+    private int numTree, delay, step ,burnStep[][];
+    private String direction;
+    public static final int NONE = 0;
+    public static final int LOW = 1;
+    public static final int HIGH = 2;
+    private int speed;
     private boolean checkBurning[][],checkLightning[][];
     private boolean lightning;
     private Random rand = new Random();
@@ -31,13 +36,15 @@ public class Simulation
         this.probCatch = probCatch;
         this.probTree = probTree;
         this.probBurning = probBurning; 
+        this.probLightning = probLightning;
         this.lightning = lightning;
         this.direction = direction;
         this.speed = speed;
 
         burnStep = new int[numTree][numTree];
-        checkBurning = new boolean[numTree][numTree];
+        checkBurning= new boolean[numTree][numTree];
         checkLightning = new boolean[numTree][numTree];
+
         initForest();
     }
 
@@ -55,6 +62,7 @@ public class Simulation
                 } else{
                     cell[i][j].setState(Cell.EMPTY);
                 }
+
                 if (i == 0 || i == cell.length-1  || j == 0 || j == cell.length-1 ) {
                     cell[i][j].setState(Cell.EMPTY);
                 }
@@ -66,9 +74,8 @@ public class Simulation
         }
         update();
     }
-    
-   
- public void Spread(){
+
+    public void Spread(){
         for(int i = 1 ; i<cell.length-1 ; i++){
             for (int j = 1 ; j<cell.length-1 ; j++){
                 if(cell[i][j].getState() == Cell.BURNING && checkBurning[i][j] == false && checkLightning[i][j] == false){
@@ -215,7 +222,7 @@ public class Simulation
                             checkBurning[i][j+1]=true;
 
                         }//East
-                        
+
                         if(cell[i][j-1].getState() == Cell.TREE && rand.nextDouble() <= probCatch){
                             cell[i][j-1].setState(Cell.BURNING);
                             checkBurning[i][j-1]=true;
@@ -299,25 +306,45 @@ public class Simulation
         }
         g.setStep();
     }
-   public void run(){
+
+    public void run(){
         while(!checkFire()){
             spreadFire();
         }
     }
-    
-   public void spreadFire(){
+
+    public void spreadFire(){
         try{
             if(!checkFire()){
                 Spread();
+                if(lightning){
+                    int x = (int) (Math.random() * (getNumTree() - 2) + 1);
+                    int y = (int) (Math.random() * (getNumTree() - 2) + 1);
+
+                    if(cell[x][y].getState() == Cell.TREE && rand.nextDouble() <= probLightning){
+                        cell[x][y].setState(Cell.BURNING);
+                        checkLightning[x][y] = true;
+                    }
+                    else if(cell[x][y].getState() == Cell.TREE && rand.nextDouble() <= probLightning*probCatch){
+                        cell[x][y].setState(Cell.BURNING);
+                        checkLightning[x][y] = true;
+                    }
+                    else{
+                        if(cell[x][y].getState()!= Cell.EMPTY){
+                            cell[x][y].setState(Cell.TREE);
+                        }
+                    }
+                }
             }
             resetCheck();
+            resetCheckLightning();
             g.Update(cell);
             Thread.sleep(50);
         }catch(Exception e){
 
         }
     }
-    
+
     public boolean checkFire(){
         for (int i = 1; i < cell.length; i++) {
             for (int j = 1; j < cell[0].length; j++) {
@@ -328,50 +355,15 @@ public class Simulation
         }
         return  true;
     }
-    
-       public void resetCheck(){
+
+    public void resetCheck(){
         for (int i = 1; i < cell.length - 1; i++) {
             for (int j = 1; j < cell[0].length - 1; j++) { 
                 checkBurning[i][j] = false ;
             }
         }
     }
-    
-    public void autoSpread(final int i, final int j) {
-        Thread t = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (i < cell.length - 1 && i > 0 && j < cell.length - 1 && j > 0) {
-                            if (rand.nextDouble() < getProbCatch() && cell[i][j].getState() == Cell.TREE) {
-                                cell[i][j].setState(Cell.BURNING);
-                            }
-                            try {
-                                Thread.sleep(100);
-                                if (cell[i][j].getState() == Cell.BURNING) {
-                                    cell[i][j].setState(0);
-                                    if (cell[i + 1][j].getState() == Cell.TREE) {
-                                        autoSpread(i + 1, j);
-                                    }
-                                    if (cell[i - 1][j].getState() == Cell.TREE) {
-                                        autoSpread(i - 1, j);
-                                    }
-                                    if (cell[i][j + 1].getState() == Cell.TREE) {
-                                        autoSpread(i, j + 1);
-                                    }
-                                    if (cell[i][j - 1].getState() == Cell.TREE) {
-                                        autoSpread(i, j - 1);
-                                    }
-                                }
-                            } catch (InterruptedException e) {
-                            }
 
-                        }
-                        update();
-                    }
-                });
-        t.start();
-    }
-    
     public void resetCheckLightning(){
         for (int i = 1; i < cell.length - 1; i++) {
             for (int j = 1; j < cell[0].length - 1; j++) { 
@@ -389,8 +381,6 @@ public class Simulation
         }
     }
 
-
-   
     public Cell[][] getCell() {
         return cell;
     }
@@ -419,6 +409,14 @@ public class Simulation
         this.probBurning = probBurning;
     }
 
+    public double getProbLightning() {
+        return probLightning;
+    }
+
+    public void setProbLightning(double probLightning) {
+        this.probLightning = probLightning;
+    }
+
     public int getDelay() {
         return delay;
     }
@@ -442,6 +440,30 @@ public class Simulation
     public void setNumTree(int numTree) {
         this.numTree = numTree;
     }
+
+    public boolean getLightNing() {
+        return this.lightning;
+    } 
+
+    public void setLightNing(boolean lightning) {
+        this.lightning = lightning;
+    }
+
+    public String getDirection() {
+        return this.direction;
+    } 
+
+    public void setDirection(String direction) {
+        this.direction =  direction;
+    } 
+
+    public int getSpeed() {
+        return this.speed;
+    } 
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    } 
 
     public void update() {
         g.Update(cell);
