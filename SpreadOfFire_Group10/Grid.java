@@ -1,5 +1,8 @@
-import java.awt.*;
+import java.awt.FlowLayout;
+import java.awt.Graphics;
+import java.awt.Color;
 import javax.swing.JPanel;
+
 /**
  * Write a description of class TestGrid here.
  * 
@@ -13,20 +16,25 @@ public class Grid extends JPanel
     private int cellSize;
     private boolean showVal;
 
-    public Grid(){        
-        setLayout(new FlowLayout(5,580, 18));
+    public Grid(){  
+        setLayout(new FlowLayout(5,580, 10));
         step = 0;
-        cellSize = 23;
+        cellSize = 2;
         showVal = false;
+
     }
 
     public void Update(Cell cell[][]){
         this.cell = cell;
         repaint();
     }
-    
-      public int getStep(){
+
+    public int getStep(){
         return this.step;
+    }
+
+    public void setCellSize(int cellSize){
+        this.cellSize = cellSize;
     }
 
     public void setStep(){
@@ -56,7 +64,6 @@ public class Grid extends JPanel
                     g.fillRect(x,y,cellSize,cellSize);
                     g.setColor(Color.BLACK);
                     if(showVal){
-
                         if (cell[i][j].getState() == Cell.EMPTY) {
                             g.drawString("0" , x+7 , y+14  );
                         } else if (cell[i][j].getState() == Cell.TREE) {
@@ -65,17 +72,20 @@ public class Grid extends JPanel
                             g.drawString("2" , x+7 , y+14 );
                         }
 
-                        g.drawRect(x , y,cellSize,cellSize);
-                    }
+                        g.drawRect(x , y,cellSize, cellSize);
 
+                    }
                 }
             }
         }
     }
 
-
-    public void setShowVal(boolean showVal) {
+    public void setShowValue(boolean showVal) {
         this.showVal = showVal;
+    }
+
+    public boolean isShowValue() {
+        return showVal;
     }
 
 }
