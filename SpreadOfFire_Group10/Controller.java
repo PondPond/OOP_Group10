@@ -81,15 +81,13 @@ public class Controller extends JPanel
         addStepButton();
         addResetButton();
         showValueButton();
-        //direction();
-
         myGrid.add(buttonArea1);
+        
         forestSize();
         addProbCatch();
         addProbTree();
         addProbBurning();
         addProbLightning();
-        // lightNing();   
         add(myGrid);
         direction();
         windSpeed();
