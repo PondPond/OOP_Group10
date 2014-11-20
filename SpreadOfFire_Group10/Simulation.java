@@ -80,19 +80,20 @@ public class Simulation
             for (int j = 1 ; j<cell.length-1 ; j++){
                 if(cell[i][j].getState() == Cell.BURNING && checkBurning[i][j] == false && checkLightning[i][j] == false){
                     cell[i][j].setState(0);
-                    if(getDirection().equals("NORTH") && getSpeed() == LOW){
+                    //wind direction is NORTH and wind speed is LOW
+                    if(getDirection().equals("NORTH") && getSpeed() == LOW){ 
                         if(cell[i-1][j].getState() == Cell.TREE && rand.nextDouble() <= probCatch ){
                             cell[i-1][j].setState(Cell.BURNING);
                             checkBurning[i-1][j]=true;
-                        }//North
+                        }
                         if(cell[i+1][j].getState() == Cell.TREE && rand.nextDouble() <= probCatch){
                             cell[i+1][j].setState(Cell.BURNING);
                             checkBurning[i+1][j]=true;
-                        }//South
+                        }
                         if(cell[i][j+1].getState() == Cell.TREE && rand.nextDouble() <= probCatch){
                             cell[i][j+1].setState(Cell.BURNING);
                             checkBurning[i][j+1]=true;
-                        }//East
+                        }
                         if(cell[i][j-1].getState() == Cell.TREE && rand.nextDouble() <= probCatch){
                             cell[i][j-1].setState(Cell.BURNING);
                             checkBurning[i][j-1]=true;
@@ -100,19 +101,19 @@ public class Simulation
                                 cell[i][j-2].setState(Cell.BURNING);
                                 checkBurning[i][j-2]=true;
                             }
-                        }//West
+                        }
 
                     }
-
+                    //wind direction is NORTH and wind speed is HIGH
                     else if(getDirection().equals("NORTH") && getSpeed() == HIGH){
                         if(cell[i-1][j].getState() == Cell.TREE && rand.nextDouble() <= probCatch ){
                             cell[i-1][j].setState(Cell.BURNING);
                             checkBurning[i-1][j]=true;
-                        }//North
+                        }
                         if(cell[i+1][j].getState() == Cell.TREE && rand.nextDouble() <= probCatch){
                             cell[i+1][j].setState(Cell.BURNING);
                             checkBurning[i+1][j]=true;
-                        }//South
+                        }
                         if(cell[i][j-1].getState() == Cell.TREE && rand.nextDouble() <= probCatch){
                             cell[i][j-1].setState(Cell.BURNING);
                             checkBurning[i][j-1]=true;
@@ -125,19 +126,19 @@ public class Simulation
                                 }
                             }
 
-                        }//West
+                        }
 
                     }
-
+                    //wind direction is SOUTH and wind speed is LOW
                     else if(getDirection().equals("SOUTH") && getSpeed() == LOW){
                         if(cell[i-1][j].getState() == Cell.TREE && rand.nextDouble() <= probCatch ){
                             cell[i-1][j].setState(Cell.BURNING);
                             checkBurning[i-1][j]=true;
-                        }//North
+                        }
                         if(cell[i+1][j].getState() == Cell.TREE && rand.nextDouble() <= probCatch){
                             cell[i+1][j].setState(Cell.BURNING);
                             checkBurning[i+1][j]=true;
-                        }//South
+                        }
                         if(cell[i][j+1].getState() == Cell.TREE && rand.nextDouble() <= probCatch){
                             cell[i][j+1].setState(Cell.BURNING);
                             checkBurning[i][j+1]=true;
@@ -145,25 +146,25 @@ public class Simulation
                                 cell[i][j+2].setState(Cell.BURNING);
                                 checkBurning[i][j+2]=true;
                             }
-                        }//East
+                        }
 
                         if(cell[i][j-1].getState() == Cell.TREE && rand.nextDouble() <= probCatch){
                             cell[i][j-1].setState(Cell.BURNING);
                             checkBurning[i][j-1]=true;
 
-                        }//West
+                        }
 
                     }
-
+                    //wind direction is SOUTH and wind speed is HIGH
                     else if(getDirection().equals("SOUTH") && getSpeed() == HIGH){
                         if(cell[i-1][j].getState() == Cell.TREE && rand.nextDouble() <= probCatch ){
                             cell[i-1][j].setState(Cell.BURNING);
                             checkBurning[i-1][j]=true;
-                        }//North
+                        }
                         if(cell[i+1][j].getState() == Cell.TREE && rand.nextDouble() <= probCatch){
                             cell[i+1][j].setState(Cell.BURNING);
                             checkBurning[i+1][j]=true;
-                        }//South
+                        }
                         if(cell[i][j+1].getState() == Cell.TREE && rand.nextDouble() <= probCatch){
                             cell[i][j+1].setState(Cell.BURNING);
                             checkBurning[i][j+1]=true;
@@ -175,14 +176,15 @@ public class Simulation
                                     checkBurning[i][j+3]=true;
                                 }
                             }
-                        }//East
+                        }
 
                     }
+                    //wind direction is EAST and wind speed is LOW
                     else if(getDirection().equals("EAST") && getSpeed() == LOW){
                         if(cell[i-1][j].getState() == Cell.TREE && rand.nextDouble() <= probCatch ){
                             cell[i-1][j].setState(Cell.BURNING);
                             checkBurning[i-1][j]=true;
-                        }//North
+                        }
                         if(cell[i+1][j].getState() == Cell.TREE && rand.nextDouble() <= probCatch){
                             cell[i+1][j].setState(Cell.BURNING);
                             checkBurning[i+1][j]=true;
@@ -190,46 +192,46 @@ public class Simulation
                                 cell[i+2][j].setState(Cell.BURNING);
                                 checkBurning[i+2][j]=true;
                             }
-                        }//South
+                        }
                         if(cell[i][j+1].getState() == Cell.TREE && rand.nextDouble() <= probCatch){
                             cell[i][j+1].setState(Cell.BURNING);
                             checkBurning[i][j+1]=true;
 
-                        }//East
+                        }
 
                         if(cell[i][j-1].getState() == Cell.TREE && rand.nextDouble() <= probCatch){
                             cell[i][j-1].setState(Cell.BURNING);
                             checkBurning[i][j-1]=true;
 
-                        }//West
+                        }
                     }
-
+                    //wind direction is EAST and wind speed is HIGH
                     else if(getDirection().equals("EAST") && getSpeed() == HIGH){
                         if(cell[i+1][j].getState() == Cell.TREE && rand.nextDouble() <= probCatch){
                             cell[i+1][j].setState(Cell.BURNING);
                             checkBurning[i+1][j]=true;
                             if(cell[i+2][j].getState() == Cell.TREE && rand.nextDouble() <= probCatch){
                                 cell[i+2][j].setState(Cell.BURNING);
-                                checkBurning[i+2][j]=true;
+                                checkBurning[i+2][j]=true
                                 if(cell[i+3][j].getState() == Cell.TREE && rand.nextDouble() <= probCatch){
                                     cell[i+3][j].setState(Cell.BURNING);
                                     checkBurning[i+3][j]=true;
                                 }
                             }
-                        }//South
+                        }
                         if(cell[i][j+1].getState() == Cell.TREE && rand.nextDouble() <= probCatch){
                             cell[i][j+1].setState(Cell.BURNING);
                             checkBurning[i][j+1]=true;
 
-                        }//East
+                        }
 
                         if(cell[i][j-1].getState() == Cell.TREE && rand.nextDouble() <= probCatch){
                             cell[i][j-1].setState(Cell.BURNING);
                             checkBurning[i][j-1]=true;
 
-                        }//West
+                        }
                     }
-
+                    //wind direction is WEST and wind speed is LOW 
                     else if(getDirection().equals("WEST") && getSpeed() == LOW){
                         if(cell[i-1][j].getState() == Cell.TREE && rand.nextDouble() <= probCatch ){
                             cell[i-1][j].setState(Cell.BURNING);
@@ -238,24 +240,24 @@ public class Simulation
                                 cell[i-2][j].setState(Cell.BURNING);
                                 checkBurning[i-2][j]=true;
                             }
-                        }//North
+                        }
                         if(cell[i][j+1].getState() == Cell.TREE && rand.nextDouble() <= probCatch){
                             cell[i][j+1].setState(Cell.BURNING);
                             checkBurning[i][j+1]=true;
 
-                        }//East
+                        }
 
                         if(cell[i][j-1].getState() == Cell.TREE && rand.nextDouble() <= probCatch){
                             cell[i][j-1].setState(Cell.BURNING);
                             checkBurning[i][j-1]=true;
 
-                        }//West
+                        }
                         if(cell[i+1][j].getState() == Cell.TREE && rand.nextDouble() <= probCatch){
                             cell[i+1][j].setState(Cell.BURNING);
                             checkBurning[i+1][j]=true;
-                        }//South
+                        }
                     }   
-
+                    //wind direction is WEST and wind speed is HIGH
                     else if(getDirection().equals("WEST") && getSpeed() == HIGH){
                         if(cell[i-1][j].getState() == Cell.TREE && rand.nextDouble() <= probCatch ){
                             cell[i-1][j].setState(Cell.BURNING);
