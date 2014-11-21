@@ -12,24 +12,22 @@ import javax.swing.JComboBox;
 import javax.swing.JButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
-import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.DefaultComboBoxModel;
-
+/*
+ * Controller class is consist of JButton,JLabel,
+ * JSlider,JCheckbox and JComboBox
+ * to control execution of program 
+ */
 public class Controller extends JPanel
 {
-
     private Simulation simulation;
     private Grid myGrid;
-    private JLabel setting;
-    private JLabel probCatchText;
-    private JLabel probTreeText;
-    private JLabel probBurningText;
-    private JLabel probLightText;
+    private JLabel setting;                                                                                                                          
     private JLabel probCatchVal;
     private JLabel probTreeVal;
     private JLabel probBurnVal;
@@ -56,7 +54,9 @@ public class Controller extends JPanel
     private JPanel buttonArea3;
     private JPanel buttonArea4;
     private boolean Click, isLarge = true;
-
+    /*
+     * constructor - create controller of panel 
+     */
     public Controller(){
         Click = false;
         buttonArea1 = new JPanel();
@@ -82,7 +82,7 @@ public class Controller extends JPanel
         addResetButton();
         showValueButton();
         myGrid.add(buttonArea1);
-        
+
         forestSize();
         addProbCatch();
         addProbTree();
@@ -94,6 +94,9 @@ public class Controller extends JPanel
 
     }
 
+    /*
+     * link button - create to show user manual.
+     */
     private void linkButton(){
         linkButton = new JButton();
         linkButton.setText("help?");
@@ -141,6 +144,10 @@ public class Controller extends JPanel
 
     }
 
+    /*
+     * auto button - program can run automatically.
+     */
+
     private void addAutoButton(){
         //Create auto button
         autoButton=new JButton("Auto");
@@ -149,6 +156,7 @@ public class Controller extends JPanel
 
         autoButton.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent e){
+                    simulation.setStop(false);
                     smallSize.setEnabled(false);
                     largeSize.setEnabled(false);
                     autoButton.setEnabled(false);
@@ -166,6 +174,9 @@ public class Controller extends JPanel
             });
     }
 
+    /*
+     * step button - program can run step by step.
+     */
     private void addStepButton(){
         //Create step button
         stepButton=new JButton("Step");
@@ -175,11 +186,14 @@ public class Controller extends JPanel
         stepButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     simulation.spreadFire();
-                    //System.out.println("Step : "+myGrid.getStep());
+
                 }
             });
     }
 
+    /*
+     * reset button - reset the field.
+     */
     private void addResetButton(){
         //Create reset button
         resetButton=new JButton("Reset");
@@ -187,6 +201,7 @@ public class Controller extends JPanel
         buttonArea1.add(resetButton);
         resetButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
+                    simulation.setStop(true);
                     simulation = new Simulation(myGrid,simulation.getNumTree(),simulation.getProbCatch(),simulation.getProbTree(),
                         simulation.getProbBurning(),simulation.getProbLightning(),simulation.getLightNing(),simulation.getDirection(),simulation.getSpeed());
                     simulation.initForest();
@@ -200,6 +215,9 @@ public class Controller extends JPanel
 
     }
 
+    /*
+     * showvalue button - show value of each cell.
+     */
     private void showValueButton(){
         showValueButton = new JButton("Show Value");
         buttonArea1.add(showValueButton);
@@ -217,6 +235,9 @@ public class Controller extends JPanel
             });
     }
 
+    /*
+     * create size of forest such as small and large.
+     */
     private void forestSize(){
         setSizeText = new JLabel("Set forest Size :");
         ButtonGroup group = new ButtonGroup();
@@ -257,12 +278,13 @@ public class Controller extends JPanel
         myGrid.add(buttonArea3);
     }
 
+    /*
+     * use JLabel to add text JSlider to show probability of the tree will catch fire.
+     */
     private void addProbCatch(){
-        //probCatchText = new JLabel("Identify probability that the tree will catch fire");
-        //myGrid.add (probCatchText);
         probCatchVal = new JLabel("probCatch : 0.0%");
         myGrid.add (probCatchVal);
-        probCatchSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 0);
+        probCatchSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 0); // default of ProbCatch is 0
         probCatchSlider.setCursor(Cursor.getPredefinedCursor(12));
         probCatchSlider.addChangeListener(new ChangeListener() {
                 @Override
@@ -279,12 +301,13 @@ public class Controller extends JPanel
 
     }
 
+    /*
+     * use JLabel to add text JSlider to show probability of density of the tree when the simulation begins.
+     */
     private void addProbTree(){
-        //probTreeText = new JLabel("Identify density of tree in forest");
-        //myGrid.add (probTreeText);
         probTreeVal = new JLabel("probTree : 100.0%");
         myGrid.add (probTreeVal);
-        probTreeSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 100);
+        probTreeSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 100); // default of ProbTree is 100
         probTreeSlider.setCursor(Cursor.getPredefinedCursor(12));
 
         probTreeSlider.addChangeListener(new ChangeListener() {
@@ -302,12 +325,13 @@ public class Controller extends JPanel
 
     }
 
-    private void addProbBurning(){
-        //probBurningText = new JLabel("Identify burning of tree in forest");
-        //myGrid.add (probBurningText);        
+    /*
+     * use JLabel to add text and JSlider to show probability of burning of the tree when the simulation begins.
+     */
+    private void addProbBurning(){       
         probBurnVal = new JLabel("probBurning : 0.0%");
         myGrid.add (probBurnVal);
-        probBurningSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 0);
+        probBurningSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 0); // default of ProbCatch is 0
         probBurningSlider.setCursor(Cursor.getPredefinedCursor(12));
 
         probBurningSlider.addChangeListener(new ChangeListener() {
@@ -325,9 +349,10 @@ public class Controller extends JPanel
 
     }
 
+    /*
+     * use JLabel to add text and JSlider to show probability that the tree is struck by lightning.
+     */
     private void addProbLightning(){
-        //probLightText = new JLabel("Identify probability that the tree is stuck by lightning");
-        //myGrid.add (probLightText);
         lightNing = new JCheckBox("Lightning");
         myGrid.add(lightNing);
         probLightVal = new JLabel("probLightning : 0.0%");
@@ -360,39 +385,45 @@ public class Controller extends JPanel
     }
 
     @SuppressWarnings("unchecked")
+
+    /*
+     * create direction of wind (North,East,West,South)
+     * use JLabel to add text and JCombobox to set wind direction
+     */
+
     private void direction(){
         directionText = new JLabel("Set wind directon :");
-        //myGrid.add(directionText);
         final  DefaultComboBoxModel Direction = new  DefaultComboBoxModel();
         Direction.addElement("NO");
-        Direction.addElement("NORTH");
-        Direction.addElement("EAST");
-        Direction.addElement("WEST");
-        Direction.addElement("SOUTH");
+        Direction.addElement("NORTH");// set wind direction to NORTH
+        Direction.addElement("EAST");// set wind direction to NEAST
+        Direction.addElement("WEST"); // set wind direction to WEST
+        Direction.addElement("SOUTH");// set wind direction to SOUTH
 
         final JComboBox windDirect= new JComboBox(Direction);    
         windDirect.setSelectedIndex(0);
-        JScrollPane DirectionScroll = new JScrollPane(windDirect);    
 
         directButton = new JButton("Ok");
-
         windDirect.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) { 
                     String data = "";
                     if (windDirect.getSelectedIndex() != -1) {                     
                         simulation.setDirection((String)windDirect.getItemAt
                             (windDirect.getSelectedIndex()));
-                        //System.out.println((String)windDirect.getItemAt
-                        //(windDirect.getSelectedIndex()));
+
                     }              
                 }
             }); 
 
-        buttonArea4.add(DirectionScroll);
         buttonArea4.add(directionText);
         buttonArea4.add(windDirect);
         myGrid.add(buttonArea4);
     }
+
+    /*
+     * create speed of wind (NONE,LOW,and HIGH)
+     * use JLabel to add text and JSlider to display wind speed
+     */
 
     private void windSpeed(){
         windSpeedSlider = new JSlider(JSlider.HORIZONTAL, 0, 2, 0); // slide only horizontal min = 0(LOW) max = 2(HIGH)
