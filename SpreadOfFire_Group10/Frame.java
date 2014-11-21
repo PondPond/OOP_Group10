@@ -2,10 +2,10 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import javax.swing.JFrame;
 /**
- * Write a description of class TestFrame here.
+ * Frame class is frame of project.
  * 
  * @author (Project Group 10) 
- * @version (21/10/2014)
+ * @version (21/11/2014)
  */
 public class Frame
 {
@@ -25,6 +25,10 @@ public class Frame
         frame.setVisible(true);
 
     }
+
+    /**
+     * The main class that use for run project
+     */
 
     public static void main(String args[])  {
         new Frame();
