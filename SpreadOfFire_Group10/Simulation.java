@@ -1,6 +1,6 @@
 import java.util.Random;
 /**
- * Write a description of class Simulation here.
+ * This class contain logic of spreading of fire.
  * 
  * @author (Project Group 10) 
  * @version (21/10/2014)
@@ -17,7 +17,7 @@ public class Simulation
     public static final int HIGH = 2;
     private int speed;
     private boolean checkBurning[][],checkLightning[][];
-    private boolean lightning;
+    private boolean lightning,stop;
     private Random rand = new Random();
 
     /**
@@ -28,6 +28,10 @@ public class Simulation
      * @param probCatch 
      * @param probTree 
      * @param probBurning 
+     * @param probLightning 
+     * @param lightning 
+     * @param direction
+     * @param speed 
      */
 
     public Simulation(Grid g ,int numTree , double probCatch , double probTree ,double probBurning, double probLightning,boolean lightning,String direction,int speed){
@@ -41,6 +45,7 @@ public class Simulation
         this.direction = direction;
         this.speed = speed;
 
+        stop = false;
         burnStep = new int[numTree][numTree];
         checkBurning= new boolean[numTree][numTree];
         checkLightning = new boolean[numTree][numTree];
@@ -48,6 +53,7 @@ public class Simulation
         initForest();
     }
 
+    // create the initial forest
     public void initForest(){
         cell = new Cell[numTree][numTree];
         for (int i = 0; i < cell.length; i++) {
@@ -55,7 +61,7 @@ public class Simulation
                 cell[i][j] = new Cell(Cell.TREE);
                 if(rand.nextDouble() < probTree){
                     if(rand.nextDouble()<getProbBurning()){
-                        cell[i][j].setState(Cell.BURNING);
+                        cell[i][j].setState(Cell.BURNING); 
                     }else{
                         cell[i][j].setState(Cell.TREE);
                     }
@@ -75,6 +81,10 @@ public class Simulation
         update();
     }
 
+    /* 
+     *  This method will calculate probability of probCatch,
+     *  identify wind direction and wind speed
+     */
     public void Spread(){
         for(int i = 1 ; i<cell.length-1 ; i++){
             for (int j = 1 ; j<cell.length-1 ; j++){
@@ -212,7 +222,7 @@ public class Simulation
                             checkBurning[i+1][j]=true;
                             if(cell[i+2][j].getState() == Cell.TREE && rand.nextDouble() <= probCatch){
                                 cell[i+2][j].setState(Cell.BURNING);
-                                checkBurning[i+2][j]=true
+                                checkBurning[i+2][j]=true;
                                 if(cell[i+3][j].getState() == Cell.TREE && rand.nextDouble() <= probCatch){
                                     cell[i+3][j].setState(Cell.BURNING);
                                     checkBurning[i+3][j]=true;
@@ -309,12 +319,19 @@ public class Simulation
         g.setStep();
     }
 
+    /* 
+     *  this method is allow program run automatically
+     */ 
     public void run(){
-        while(!checkFire()){
+        while(!checkFire() && !stop){
             spreadFire();
         }
     }
 
+    /*  
+     *  this method will calculate probLightning and display execution of program
+     *  
+     */
     public void spreadFire(){
         try{
             if(!checkFire()){
@@ -346,6 +363,10 @@ public class Simulation
 
         }
     }
+    
+    /*
+     * this method will check burnnig tree in forest
+     */
 
     public boolean checkFire(){
         for (int i = 1; i < cell.length; i++) {
@@ -358,6 +379,9 @@ public class Simulation
         return  true;
     }
 
+    /*
+     * This method will check direction of burning tree
+     */
     public void resetCheck(){
         for (int i = 1; i < cell.length - 1; i++) {
             for (int j = 1; j < cell[0].length - 1; j++) { 
@@ -366,6 +390,10 @@ public class Simulation
         }
     }
 
+    /*
+     * After the tree is stuck by lightning, this method will check lightning
+     * and wait until lightning execute 5 times then the tree will catch fire 
+     */
     public void resetCheckLightning(){
         for (int i = 1; i < cell.length - 1; i++) {
             for (int j = 1; j < cell[0].length - 1; j++) { 
@@ -449,6 +477,14 @@ public class Simulation
 
     public void setLightNing(boolean lightning) {
         this.lightning = lightning;
+    }
+
+    public boolean getStop() {
+        return this.stop;
+    } 
+
+    public void setStop(boolean stop) {
+        this.stop = stop;
     }
 
     public String getDirection() {
