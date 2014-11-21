@@ -4,10 +4,10 @@ import java.awt.Color;
 import javax.swing.JPanel;
 
 /**
- * Write a description of class TestGrid here.
+ * This class is painting cell .
  * 
  * @author (Project Group 10)
- * @version (21/10/2014)
+ * @version (21/11/2014)
  */
 public class Grid extends JPanel
 {
@@ -44,7 +44,7 @@ public class Grid extends JPanel
     public void setStep(int step){
         this.step = this.step;
     }
-
+    
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         for(int i = 0 ; i< cell.length;i++){
@@ -63,7 +63,7 @@ public class Grid extends JPanel
                     }
                     g.fillRect(x,y,cellSize,cellSize);
                     g.setColor(Color.BLACK);
-                    if(showVal){
+                    if(isShowValue() && cell.length == 23){
                         if (cell[i][j].getState() == Cell.EMPTY) {
                             g.drawString("0" , x+7 , y+14  );
                         } else if (cell[i][j].getState() == Cell.TREE) {
